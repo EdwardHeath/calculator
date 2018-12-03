@@ -20,6 +20,7 @@
 
 #full-display > div {
 	border: none;
+	user-select: all;
 }
 
 #display {
@@ -51,4 +52,5 @@
 
 html {
 	font-family: sans-serif;
+	user-select: none;
 }
