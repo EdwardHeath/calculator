@@ -4,17 +4,30 @@
 }
 
 .row div {
+	display: flex;
 	flex: 1;
-	text-align: center;
+	justify-content: center;
+	align-items: center;
 	border: solid black;
 	margin: 5px;
 	padding: 10px;
 }
 
-#display {
-	border: solid black;
-	text-align: right;
+#full-display {
+	display: flex;
 	font-size: 20pt;
+}
+
+#full-display > div {
+	border: none;
+}
+
+#display {
+	justify-content: flex-end;
+}
+
+#history {
+	justify-content: flex-start;
 }
 
 #calculator {
@@ -22,7 +35,7 @@
 	margin: 0 auto;
 }
 
-.operator, #decimal {
+.operator, #decimal, #clear, #negate {
 	background-color: lightgray;
 }
 

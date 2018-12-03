@@ -1,8 +1,11 @@
 let displayValue = "0";
+let currentOperator = "";
+let storedValue = "0";
 
 const numbers = document.querySelectorAll(".number");
 const operators = document.querySelectorAll(".operator");
 const display = document.getElementById("display");
+const historyDisplay = document.getElementById("history");
 
 numbers.forEach(number => {
 	number.addEventListener('click', numberPressed);
@@ -12,8 +15,27 @@ operators.forEach(operator => {
 	operator.addEventListener('click', operatorPressed);
 });
 
+document.getElementById("equals").addEventListener('click', calculate);
+document.getElementById("clear").addEventListener('click', clear);
+document.getElementById("negate").addEventListener('click', negate);
+
 function operatorPressed(e) {
-	console.log(e.srcElement.innerHTML);
+	if (currentOperator) {
+		const calculation = operate(storedValue, displayValue, currentOperator); 
+
+		updateDisplay("0", calculation, currentOperator);
+
+		displayValue = "0";
+		currentOperator = e.srcElement.innerHTML;
+		storedValue = calculation;
+	} else {
+		currentOperator = e.srcElement.innerHTML;
+
+		updateDisplay("0", displayValue, currentOperator);
+
+		storedValue = displayValue;
+		displayValue = "0";
+	}
 }
 
 function numberPressed(e) {
@@ -23,11 +45,39 @@ function numberPressed(e) {
 	} else {
 		displayValue = displayValue + number;
 	}
-	updateDisplay();
+	display.innerHTML = displayValue;
 }
 
-function updateDisplay() {
-	display.innerHTML = displayValue;
+function calculate() {
+	if(currentOperator) {
+		const calculation = operate(storedValue, displayValue, currentOperator);
+
+		updateDisplay(calculation);
+
+		displayValue = calculation;
+		storedValue = "0";
+		currentOperator = "";
+	}
+}
+
+function clear() {
+	displayValue = "0";
+	currentOperator = "";
+	storedValue = "0";
+
+	updateDisplay(displayValue);
+}
+
+function updateDisplay(current, history = "", operator = "") {
+	historyDisplay.innerHTML = `${history} ${operator}`;
+	display.innerHTML = current;
+	console.log(current, history, operator);
+}
+
+function negate() {
+	displayValue = `${parseInt(displayValue) * -1}`;
+
+	updateDisplay(displayValue);
 }
 
 function add(a, b) {
@@ -47,17 +97,20 @@ function divide(a, b) {
 }
 
 function operate(a, b, operator) {
+	a = parseInt(a);
+	b = parseInt(b);
+
 	switch(operator) {
-		case add:
+		case "+":
 			return add(a,b);
 			break;
-		case subtract:
+		case "-":
 			return subtract(a,b);
 			break;
-		case multiply:
+		case "*":
 			return multiply(a,b);
 			break;
-		case divide:
+		case "/":
 			return divide(a,b);
 			break;
 		default:
