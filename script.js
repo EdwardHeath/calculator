@@ -18,6 +18,7 @@ operators.forEach(operator => {
 document.getElementById("equals").addEventListener('click', calculate);
 document.getElementById("clear").addEventListener('click', clear);
 document.getElementById("negate").addEventListener('click', negate);
+document.getElementById("percent").addEventListener('click', percent);
 
 function operatorPressed(e) {
 	if (currentOperator) {
@@ -80,6 +81,12 @@ function negate() {
 	updateDisplay(displayValue);
 }
 
+function percent() {
+	displayValue = `0.0${displayValue}`;
+
+	updateDisplay(displayValue);
+}
+
 function add(a, b) {
 	return a + b;
 }
@@ -97,8 +104,8 @@ function divide(a, b) {
 }
 
 function operate(a, b, operator) {
-	a = parseInt(a);
-	b = parseInt(b);
+	// a = parseInt(a);
+	// b = parseInt(b);
 
 	switch(operator) {
 		case "+":
